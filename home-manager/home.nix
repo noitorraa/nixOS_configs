@@ -7,7 +7,7 @@
   nixpkgs.config.allowUnfree = true;
   home.stateVersion = "25.11"; 
   home.packages = with pkgs; [
-	yazi fd neovim btop kitty obsidian steam krita obs-studio
+	yazi fd neovim btop kitty obsidian steam krita obs-studio discord telegram-desktop
   ];
 
 home.file = {
@@ -20,3 +20,29 @@ home.file = {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }
+
+# КОНФИГУРАЦИЯ USER-SPACE (HOME MANAGER)
+# Управляет:
+# - пользовательскими пакетами (home.packages)
+# - dotfiles (.bashrc, .config/ и др.)
+# - переменными окружения
+# - алиасами и функциями shell
+
+# ОСНОВНЫЕ КОМАНДЫ:
+#
+# Применить изменения для текущего пользователя:
+#   home-manager switch
+#
+# Применить для другого пользователя:
+#   home-manager --user <username> switch
+#
+# Проверить синтаксис конфига (без применения):
+#   home-manager build
+#
+# Сбросить конфигурацию (удалить сгенерированные файлы):
+#   home-manager uninstall
+#
+# После применения:
+# - откройте новый терминал для доступа к новым командам
+# - перезапустите графическую среду для обновления меню приложений
+

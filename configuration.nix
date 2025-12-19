@@ -22,17 +22,21 @@
     extraPackages32 = with pkgs.driversi686Linux; [ nvidia-vaapi-driver ];
   };
 
+
   # ============ X SERVER И ДИСПЛЕЙНЫЙ МЕНЕДЖЕР ============
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-    displayManager.lightdm.enable = true;
+    
     desktopManager.xfce.enable = true;
+    
     xkb = {
       layout = "us,ru";
       options = "grp:alt_shift_toggle";
     };
   };
+  
+  programs.niri.enable = true;
 
   # ============ НАСТРОЙКИ NVIDIA (ГИБРИДНАЯ ГРАФИКА) ============
   hardware.nvidia = {
@@ -52,7 +56,7 @@
 
   # ============ СИСТЕМНЫЕ ПАКЕТЫ ============
   environment.systemPackages = with pkgs; [
-    vim wget curl git htop networkmanager openssh net-tools docker lshw mesa-demos
+    vim wget curl git htop networkmanager openssh net-tools docker lshw mesa-demos gnutar p7zip
   ];
 
   # ============ СЕТЕВЫЕ НАСТРОЙКИ ============
@@ -79,6 +83,7 @@
     isNormalUser = true;
     description = "qz7renna";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.fish;
   };
 
   # ============ АУДИОСИСТЕМА PIPEWIRE ============
@@ -94,8 +99,27 @@
 
   # ============ ДОПОЛНИТЕЛЬНЫЕ СЕРВИСЫ ============
   services.printing.enable = true;
+  services.displayManager.sddm.enable = true;
+
   programs.firefox.enable = true;
-}
+  programs.fish.enable = true;
+  programs.dms-shell = {
+    enable = true;
+    quickshell.package = pkgs.quickshell;
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+    
+    # Включаем нужные функции
+    enableSystemMonitoring = true;
+    enableClipboard = true;
+    enableVPN = true;
+    enableDynamicTheming = true;
+    enableAudioWavelength = true;
+    enableCalendarEvents = true;
+  };
+ }
 
 # КОНФИГУРАЦИЯ СИСТЕМЫ NIXOS
 # Управляет:

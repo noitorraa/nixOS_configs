@@ -7,7 +7,7 @@
   nixpkgs.config.allowUnfree = true;
   home.stateVersion = "25.11"; 
   home.packages = with pkgs; [
-	yazi fd neovim btop kitty obsidian steam krita obs-studio discord telegram-desktop
+	yazi fd neovim btop kitty obsidian steam krita obs-studio discord telegram-desktop fuzzel swaylock dgop matugen cliphist wl-clipboard dsearch grim slurp wofi networkmanagerapplet pavucontrol
 ];
 
 home.file = {
@@ -18,7 +18,14 @@ home.file = {
   };
 
   programs.home-manager.enable = true;
-
+  programs.kitty = {
+    enable = true;
+    settings = {
+      disable_audio_bell = true;
+      font_size = 16;
+      confirm_os_window_close = 0;
+    };
+  };
 }
 
 # КОНФИГУРАЦИЯ USER-SPACE (HOME MANAGER)
@@ -45,5 +52,4 @@ home.file = {
 # После применения:
 # - откройте новый терминал для доступа к новым командам
 # - перезапустите графическую среду для обновления меню приложений
-
 

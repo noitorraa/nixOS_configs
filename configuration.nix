@@ -56,7 +56,7 @@
 
   # ============ СИСТЕМНЫЕ ПАКЕТЫ ============
   environment.systemPackages = with pkgs; [
-    vim wget curl git htop networkmanager openssh net-tools docker lshw mesa-demos gnutar p7zip
+    vim wget curl git htop networkmanager openssh net-tools docker lshw mesa-demos
   ];
 
   # ============ СЕТЕВЫЕ НАСТРОЙКИ ============
@@ -105,7 +105,6 @@
   programs.fish.enable = true;
   programs.dms-shell = {
     enable = true;
-    quickshell.package = pkgs.quickshell;
     systemd = {
       enable = true;
       restartIfChanged = true;

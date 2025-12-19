@@ -3,11 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
     home-manager = {
-      url = "github:rycee/home-manager";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixvim.url = "github:dc-tec/nixvim";
 
     zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";
     dankMaterialShell = {
@@ -16,18 +17,21 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, zapret-discord-youtube, dankMaterialShell }: {
+  outputs = { self, nixpkgs, home-manager, nixvim, zapret-discord-youtube, dankMaterialShell }: {
     nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         ./configuration.nix
-        
         home-manager.nixosModules.home-manager
         {
+          home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = true;
-          home-manager.users.qz7renna = ./home-manager/home.nix;  
-        }
 
+          home-manager.extraSpecialArgs = { inherit nixvim; };
+          home-manager.users.qz7renna = { config, nixvim, ... }: {
+            imports = [ ./home-manager/home.nix ];
+          };
+        }
         zapret-discord-youtube.nixosModules.default
         {
           services.zapret-discord-youtube = {
@@ -62,3 +66,4 @@
 #
 # Перед любыми сборками обновите каналы:
 #   nix-channel --update
+

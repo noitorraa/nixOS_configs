@@ -8,7 +8,7 @@
 
 {
   imports = [
-
+    ./nixvim/nixvim.nix 
   ];
 
   home.username = "qz7renna";
@@ -62,30 +62,6 @@
         _7zz = pkgs._7zz-rar;
       }
     );
-  };
-
-  programs.nixvim = {
-    enable = true;
-    viAlias = true;
-    vimAlias = true;
-    opts = {
-      number = true;
-      relativenumber = true;
-      tabstop = 4;
-      shiftwidth = 4;
-      expandtab = true;
-    };
-    plugins = {
-      lualine.enable = true;
-      telescope.enable = true;
-      treesitter.enable = true;
-      web-devicons.enable = true;
-   };
-    colorschemes.tokyonight = {
-      enable = true; 
-      style = "night"; # Возможные значения: "night", "storm", "day", "moon"[citation:3]
-    };
-    colorscheme = "tokyonight";
   };
 }
 

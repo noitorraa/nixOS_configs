@@ -5,7 +5,10 @@
 
   # ============ ОСНОВНЫЕ НАСТРОЙКИ NIX ============
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   system.stateVersion = "25.11";
 
   # ============ НАСТРОЙКИ ЗАГРУЗЧИКА ============
@@ -22,20 +25,19 @@
     extraPackages32 = with pkgs.driversi686Linux; [ nvidia-vaapi-driver ];
   };
 
-
   # ============ X SERVER И ДИСПЛЕЙНЫЙ МЕНЕДЖЕР ============
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
-    
-    desktopManager.xfce.enable = true;
-    
+
+    desktopManager.xfce.enable = false;
+
     xkb = {
       layout = "us,ru";
       options = "grp:alt_shift_toggle";
     };
   };
-  
+
   programs.niri.enable = true;
 
   # ============ НАСТРОЙКИ NVIDIA (ГИБРИДНАЯ ГРАФИКА) ============
@@ -56,8 +58,32 @@
 
   # ============ СИСТЕМНЫЕ ПАКЕТЫ ============
   environment.systemPackages = with pkgs; [
-    vim wget curl git htop networkmanager openssh net-tools docker lshw mesa-demos
+    vim
+    wget
+    curl
+    git
+    htop
+    networkmanager
+    openssh
+    net-tools
+    docker
+    docker-compose
+    lshw
+    file
+    ffmpeg
+    jq
+    poppler
+    fd
+    fzf
+    zoxide
+    resvg
+    mesa-demos
   ];
+
+  # ============ НАСТРОЙКИ ВИРТУАЛИЗАЦИИ ============
+  virtualisation.docker = {
+    enable = true;
+  };
 
   # ============ СЕТЕВЫЕ НАСТРОЙКИ ============
   networking.hostName = "nixos";
@@ -82,7 +108,11 @@
   users.users.qz7renna = {
     isNormalUser = true;
     description = "qz7renna";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+    ];
     shell = pkgs.fish;
   };
 
@@ -109,7 +139,7 @@
       enable = true;
       restartIfChanged = true;
     };
-    
+
     # Включаем нужные функции
     enableSystemMonitoring = true;
     enableClipboard = true;
@@ -118,7 +148,7 @@
     enableAudioWavelength = true;
     enableCalendarEvents = true;
   };
- }
+}
 
 # КОНФИГУРАЦИЯ СИСТЕМЫ NIXOS
 # Управляет:
@@ -143,4 +173,3 @@
 #
 # Обновить каналы перед сборкой (обязательно!):
 #   nix-channel --update
-

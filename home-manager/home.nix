@@ -1,20 +1,22 @@
 {
   config,
+  inputs,
   pkgs,
   lib,
-  nixvim,
   ...
 }:
 
 {
+  imports = [
+
+  ];
+
   home.username = "qz7renna";
   home.homeDirectory = "/home/qz7renna";
   nixpkgs.config.allowUnfree = true;
   home.stateVersion = "25.11";
+
   home.packages = with pkgs; [
-    yazi
-    fd
-    btop
     kitty
     obsidian
     steam
@@ -22,47 +24,68 @@
     obs-studio
     discord
     telegram-desktop
-    nixvim.packages.${pkgs.system}.default
+    logseq
   ];
+
   home.file = { };
-  home.sessionVariables = { };
+
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
+
   programs.home-manager.enable = true;
+
   programs.kitty = {
     enable = true;
+    themeFile = "AdventureTime";
+    font.name = "Fira Code";
+    font.size = 18;
     settings = {
-      shell = "${pkgs.fish}/bin/fish";
-      window_padding_width = 10;
-      scrollback_lines = 10000;
+      cursor_shape = "beam";
       enable_audio_bell = false;
-      cursor = "#e1e2e9";
-      cursor_text_color = "#c4c6cf";
-      foreground = "#e1e2e9";
-      background = "#111318";
-      selection_foreground = "#273141";
-      selection_background = "#bdc7dc";
-      url_color = "#a6c8ff";
+      confirm_os_window_close = 0;
+    };
+  };
 
-      color0 = "#111318";
-      color1 = "#e64c46";
-      color2 = "#70d66e";
-      color3 = "#dbd17b";
-      color4 = "#5982ca";
-      color5 = "#899ebf";
-      color6 = "#a6c8ff";
-      color7 = "#abb2bf";
-      color8 = "#5c6370";
-      color9 = "#e05f5f";
-      color10 = "#87e086";
-      color11 = "#e8e097";
-      color12 = "#b1d6ff";
-      color13 = "#4a7da5";
-      color14 = "#6677ae";
-      color15 = "#ffffff";
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "default";
     };
-    font = {
-      name = "JetBrainsMono Nerd Font";
-      size = 16;
+  };
+
+  programs.yazi = {
+    enable = true;
+    package = (
+      pkgs.yazi.override {
+        _7zz = pkgs._7zz-rar;
+      }
+    );
+  };
+
+  programs.nixvim = {
+    enable = true;
+    viAlias = true;
+    vimAlias = true;
+    opts = {
+      number = true;
+      relativenumber = true;
+      tabstop = 4;
+      shiftwidth = 4;
+      expandtab = true;
     };
+    plugins = {
+      lualine.enable = true;
+      telescope.enable = true;
+      treesitter.enable = true;
+      web-devicons.enable = true;
+   };
+    colorschemes.tokyonight = {
+      enable = true; 
+      style = "night"; # Возможные значения: "night", "storm", "day", "moon"[citation:3]
+    };
+    colorscheme = "tokyonight";
   };
 }
 

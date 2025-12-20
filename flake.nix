@@ -8,40 +8,58 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim.url = "github:dc-tec/nixvim";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";
+
     dankMaterialShell = {
       url = "github:AvengeMedia/DankMaterialShell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, nixvim, zapret-discord-youtube, dankMaterialShell }: {
-    nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = false;
-          home-manager.useUserPackages = true;
-
-          home-manager.extraSpecialArgs = { inherit nixvim; };
-          home-manager.users.qz7renna = { config, nixvim, ... }: {
-            imports = [ ./home-manager/home.nix ];
-          };
-        }
-        zapret-discord-youtube.nixosModules.default
-        {
-          services.zapret-discord-youtube = {
-            enable = true;
-            config = "general(ALT)";
-          };
-        }
-      ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nixvim,
+      zapret-discord-youtube,
+      dankMaterialShell,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.qz7renna =
+              { config, pkgs, ... }:
+              {
+                imports = [
+                  ./home-manager/home.nix
+                  nixvim.homeModules.nixvim
+                ];
+                _module.args.inputs = inputs;
+              };
+          }
+          zapret-discord-youtube.nixosModules.default
+          {
+            services.zapret-discord-youtube = {
+              enable = true;
+              config = "general(ALT)";
+            };
+          }
+        ];
+      };
     };
-  };
 }
 
 # FLAKES-КОНФИГУРАЦИЯ (УПРАВЛЕНИЕ ЗАВИСИМОСТЯМИ)
@@ -66,4 +84,3 @@
 #
 # Перед любыми сборками обновите каналы:
 #   nix-channel --update
-

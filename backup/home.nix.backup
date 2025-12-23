@@ -1,30 +1,67 @@
-{ config, pkgs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
+  imports = [
+    ./nixvim/nixvim.nix 
+  ];
 
   home.username = "qz7renna";
   home.homeDirectory = "/home/qz7renna";
   nixpkgs.config.allowUnfree = true;
-  home.stateVersion = "25.11"; 
+  home.stateVersion = "25.11";
+
   home.packages = with pkgs; [
-	yazi fd neovim btop kitty obsidian steam krita obs-studio discord telegram-desktop fuzzel swaylock dgop matugen cliphist wl-clipboard dsearch grim slurp wofi networkmanagerapplet pavucontrol
-];
+    kitty
+    obsidian
+    steam
+    krita
+    obs-studio
+    discord
+    telegram-desktop
+    logseq
+  ];
 
-home.file = {
+  home.file = { };
 
-};
   home.sessionVariables = {
-
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   programs.home-manager.enable = true;
+
   programs.kitty = {
     enable = true;
+    themeFile = "AdventureTime";
+    font.name = "Fira Code";
+    font.size = 18;
     settings = {
-      disable_audio_bell = true;
-      font_size = 16;
+      cursor_shape = "beam";
+      enable_audio_bell = false;
       confirm_os_window_close = 0;
     };
+  };
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      color_theme = "default";
+    };
+  };
+
+  programs.yazi = {
+    enable = true;
+    package = (
+      pkgs.yazi.override {
+        _7zz = pkgs._7zz-rar;
+      }
+    );
   };
 }
 
@@ -52,4 +89,3 @@ home.file = {
 # После применения:
 # - откройте новый терминал для доступа к новым командам
 # - перезапустите графическую среду для обновления меню приложений
-

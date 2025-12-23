@@ -8,7 +8,8 @@
 
 {
   imports = [
-    ./nixvim/nixvim.nix 
+    ./nixvim.nix
+    ./yazi.nix
   ];
 
   home.username = "qz7renna";
@@ -18,13 +19,13 @@
 
   home.packages = with pkgs; [
     kitty
-    obsidian
     steam
     krita
     obs-studio
     discord
     telegram-desktop
-    logseq
+    obsidian
+    sillytavern
   ];
 
   home.file = { };
@@ -35,7 +36,6 @@
   };
 
   programs.home-manager.enable = true;
-
   programs.kitty = {
     enable = true;
     themeFile = "AdventureTime";
@@ -53,15 +53,6 @@
     settings = {
       color_theme = "default";
     };
-  };
-
-  programs.yazi = {
-    enable = true;
-    package = (
-      pkgs.yazi.override {
-        _7zz = pkgs._7zz-rar;
-      }
-    );
   };
 }
 

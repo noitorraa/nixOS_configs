@@ -8,10 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixvim.url = "github:nix-community/nixvim";
 
     zapret-discord-youtube.url = "github:kartavkun/zapret-discord-youtube";
 
@@ -35,10 +32,10 @@
       nixosConfigurations.my-system = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
-          ./configuration.nix
+          ./configuration.nix 
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
+            home-manager.useGlobalPkgs = false;
             home-manager.useUserPackages = true;
             home-manager.users.qz7renna =
               { config, pkgs, ... }:

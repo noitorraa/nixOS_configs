@@ -129,8 +129,9 @@
 
   # ============ ДОПОЛНИТЕЛЬНЫЕ СЕРВИСЫ ============
   services.printing.enable = true;
-  services.displayManager.sddm.enable = true;
-
+  services.displayManager.sddm = {
+    enable = true;
+  };
   programs.firefox.enable = true;
   programs.fish.enable = true;
   programs.dms-shell = {
@@ -148,6 +149,10 @@
     enableAudioWavelength = true;
     enableCalendarEvents = true;
   };
+
+  # ============ ПЕРЕМЕННЫЕ ОКРУЖЕНИЯ ============
+  environment.sessionVariables = {
+  }; 
 }
 
 # КОНФИГУРАЦИЯ СИСТЕМЫ NIXOS
